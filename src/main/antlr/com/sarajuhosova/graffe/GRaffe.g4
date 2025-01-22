@@ -1,57 +1,39 @@
 grammar GRaffe;
 
-parse
-  :  line* EOF
-  ;
+parse : line* EOF;
 
-line
-  :  Space* (keyValue | LineBreak)
-  ;
+line : Space* (statement | linebreak);
 
-keyValue
-  :  key separatorAndValue eol
-  ;
+statement : name Space* '{' Space* properties Space* '}';
+  
+name : AlphaNum+ ;
 
-key
-  :  keyChar+
-  ;
+properties
+    :
+    | property
+    | linebreak* (Space* property? linebreak*)
+    ;
 
-keyChar
-  :  AlphaNum
-  ;
+property : name Space* ':' Space* string;
 
-separatorAndValue
-  :  (Space | Equals) chars+
-  ;
+string : '"' ( '\\"' | . )*? '"';
 
-chars
-  :  AlphaNum
-  |  Space
-  |  Equals
-  ;
+linebreak
+    : '\r'? '\n'
+    | '\r'
+    ;
 
-eol
-  :  LineBreak
-  |  EOF
-  ;
-
-Equals
-  : '='
-  ;
-
-LineBreak
-  :  '\r'? '\n'
-  |  '\r'
-  ;
+Comment : '/*' .*? '*/' -> skip;
+InlineComment : '//' .*? ('\r'? '\n' | '\n' | EOF) -> skip;
 
 Space
-  :  ' '
-  |  '\t'
-  |  '\f'
-  ;
+    :  ' '
+    |  '\t'
+    |  '\f'
+    ;
 
 AlphaNum
-  :  'a'..'z'
-  |  'A'..'Z'
-  |  '0'..'9'
-  ;
+    :  'a'..'z'
+    |  'A'..'Z'
+    |  '0'..'9'
+    ;
