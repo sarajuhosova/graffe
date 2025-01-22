@@ -1,0 +1,20 @@
+a {
+    hello: "world";
+
+    include c f;
+
+    b {
+        hoi: "13";
+    }
+
+    b <-> c {}
+    c -- f;
+}
+
+include d;
+
+a -> d {
+    prop: "hello";
+}
+
+a <- d;
