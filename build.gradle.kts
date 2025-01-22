@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     kotlin("jvm") version "2.1.0"
     antlr
@@ -36,6 +38,13 @@ tasks.generateGrammarSource {
     arguments = arguments +
             "-package" + "com.sarajuhosova.graffe" +
             "-visitor"
+}
+
+tasks.withType<KotlinCompile>().configureEach {
+    dependsOn(tasks.withType<AntlrTask>())
+}
+tasks.withType<Jar>().configureEach {
+    dependsOn(tasks.withType<AntlrTask>())
 }
 
 sourceSets {
