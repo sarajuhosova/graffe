@@ -1,27 +1,19 @@
 grammar GRaffe;
 
-parse : line* EOF;
+parse : declaration* EOF;
 
-line : Space* (statement | linebreak);
+declaration : Name '{' statement* '}';
 
-statement : Name Space* '{' Space* properties Space* '}';
-
-properties
-    :
-    | property
-    | linebreak* (Space* property? linebreak*)
+statement
+    : property
+    | declaration
     ;
 
-property : Name Space* ':' Space* value;
+property : Name ':' value ';';
 
 value : stringValue ;
 
 stringValue : String ;
-
-linebreak
-    : '\r'? '\n'
-    | '\r'
-    ;
 
 String : '"' ( '\\"' | . )*? '"';
 
@@ -30,11 +22,8 @@ Name : AlphaNum+ ;
 Comment : '/*' .*? '*/' -> skip;
 InlineComment : '//' .*? ('\r'? '\n' | '\n' | EOF) -> skip;
 
-Space
-    :  ' '
-    |  '\t'
-    |  '\f'
-    ;
+Space :  [ \t\f]+ -> skip;
+LineBreak: [\r\n] -> skip;
 
 AlphaNum
     :  'a'..'z'

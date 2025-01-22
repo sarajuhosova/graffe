@@ -1,0 +1,15 @@
+hello { language : "English"; } // a greeting!
+// who are we greeting?
+world {
+    place : "";
+    location: "";
+
+    europe {
+        something: "
+            blabla
+        ";
+    }
+}
+// This is a comment.
+comment /* a comment */ {
+}

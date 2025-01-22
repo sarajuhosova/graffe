@@ -23,5 +23,5 @@ private fun example(filename: String) {
 fun main() {
     println("Welcome to GRaffe!")
 
-    example("small.grf")
+    example("sample.grf")
 }
