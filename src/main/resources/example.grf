@@ -1,0 +1,14 @@
+data {
+    label: "data"
+    info: """
+        This is the component representing all of our data.
+    """
+}
+
+repository {
+    info: "This is the layer that communicates with the database."
+}
+
+data to repository: {
+    label: "provides model"
+}

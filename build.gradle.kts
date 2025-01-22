@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "2.1.0"
     antlr
+    idea
 }
 
 group = "com.sarajuhosova.graffe"
@@ -38,5 +39,10 @@ sourceSets {
         java {
             srcDir(tasks.generateGrammarSource)
         }
+    }
+}
+idea {
+    module {
+        sourceDirs.add(file("$rootDir/src/main/antlr"))
     }
 }
