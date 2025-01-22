@@ -14,6 +14,8 @@ repositories {
 dependencies {
     antlr("org.antlr:antlr4:4.13.2")
     testImplementation(kotlin("test"))
+    testImplementation("org.assertj:assertj-core:3.27.3")
+
 }
 
 tasks.test {
@@ -38,6 +40,11 @@ tasks.generateGrammarSource {
 
 sourceSets {
     main {
+        java {
+            srcDir(tasks.generateGrammarSource)
+        }
+    }
+    test {
         java {
             srcDir(tasks.generateGrammarSource)
         }

@@ -1,9 +1,12 @@
 package com.sarajuhosova.graffe.model.ast
 
-data class GRaffeProgram(val statements: List<GRaffeStatement>) {
+import com.sarajuhosova.graffe.model.ast.statement.declaration.GRaffeDeclaration
 
-        override fun toString(): String {
-            return statements.joinToString("\n\n")
-        }
+data class GRaffeProgram(
+    val declarations: List<GRaffeDeclaration> = emptyList()
+): GRaffeElement() {
+
+    override fun toString(): String =
+        declarations.joinToString("\n\n")
 
 }

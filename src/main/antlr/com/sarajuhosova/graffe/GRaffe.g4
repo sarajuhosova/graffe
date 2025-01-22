@@ -3,13 +3,14 @@ grammar GRaffe;
 parse : declaration* EOF;
 
 declaration
-    // declarations of components
-    : Name ('{' statement* '}' | EOL)
-    // declarations of relationships
-    | Name Arrow Name ('{' property* '}' | EOL)
-    // imports
-    | 'include' Name+ EOL
+    : componentDecl
+    | relationshipDecl
+    | includeDecl
     ;
+
+componentDecl : Name ('{' statement* '}' | EOL);
+relationshipDecl : Name Arrow Name ('{' property* '}' | EOL);
+includeDecl : 'include' Name+ EOL;
 
 statement
     : property
