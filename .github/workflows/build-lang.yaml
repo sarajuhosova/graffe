@@ -27,6 +27,6 @@ jobs:
         with:
           gradle-version: 8.10.2
       - name: 'Build'
-        run: gradle assemble testClasses
+        run: gradle -p lang assemble testClasses
       - name: 'Test'
-        run: gradle check
+        run: gradle -p lang check
