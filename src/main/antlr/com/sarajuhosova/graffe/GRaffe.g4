@@ -4,9 +4,7 @@ parse : line* EOF;
 
 line : Space* (statement | linebreak);
 
-statement : name Space* '{' Space* properties Space* '}';
-  
-name : AlphaNum+ ;
+statement : Name Space* '{' Space* properties Space* '}';
 
 properties
     :
@@ -14,14 +12,20 @@ properties
     | linebreak* (Space* property? linebreak*)
     ;
 
-property : name Space* ':' Space* string;
+property : Name Space* ':' Space* value;
 
-string : '"' ( '\\"' | . )*? '"';
+value : stringValue ;
+
+stringValue : String ;
 
 linebreak
     : '\r'? '\n'
     | '\r'
     ;
+
+String : '"' ( '\\"' | . )*? '"';
+
+Name : AlphaNum+ ;
 
 Comment : '/*' .*? '*/' -> skip;
 InlineComment : '//' .*? ('\r'? '\n' | '\n' | EOF) -> skip;

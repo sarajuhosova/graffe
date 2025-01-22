@@ -31,7 +31,9 @@ java {
 tasks.generateGrammarSource {
     outputDirectory = file("$rootDir/build/generated/sources/main/java/antlr")
 
-    arguments = arguments + listOf("-package", "com.sarajuhosova.graffe")
+    arguments = arguments +
+            "-package" + "com.sarajuhosova.graffe" +
+            "-visitor"
 }
 
 sourceSets {

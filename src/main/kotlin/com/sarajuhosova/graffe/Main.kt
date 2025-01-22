@@ -1,5 +1,6 @@
 package com.sarajuhosova.graffe
 
+import com.sarajuhosova.graffe.parser.ASTBuilder
 import org.antlr.v4.runtime.CharStream
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
@@ -16,18 +17,11 @@ private fun example(filename: String) {
     val tokens = CommonTokenStream(lexer)
     val parser = GRaffeParser(tokens)
 
-    while (parser.currentToken.type != GRaffeParser.EOF) {
-        val component = parser.component()
-        if (component != null) {
-            if (component.comment() != null) {
-                println(component.comment())
-            }
-        }
-    }
+    println(parser.parse().accept(ASTBuilder))
 }
 
 fun main() {
     println("Welcome to GRaffe!")
 
-    example("comment.grf")
+    example("small.grf")
 }
