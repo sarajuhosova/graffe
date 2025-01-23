@@ -4,6 +4,7 @@ plugins {
     kotlin("jvm") version "2.1.0"
     antlr
     idea
+    application
 }
 
 group = "com.sarajuhosova.graffe"
@@ -63,4 +64,8 @@ idea {
     module {
         sourceDirs.add(file("$rootDir/src/main/antlr"))
     }
+}
+
+application {
+    mainClass = "com.sarajuhosova.graffe.MainKt"
 }
