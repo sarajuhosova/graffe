@@ -1,8 +1,9 @@
 package com.sarajuhosova.graffe.parser.declaration
 
 import com.sarajuhosova.graffe.enums.Arrow
+import com.sarajuhosova.graffe.model.ast.statement.GRaffeProperty
 import com.sarajuhosova.graffe.model.ast.statement.declaration.RelationshipDeclaration
-import com.sarajuhosova.graffe.model.ast.statement.property.StringProperty
+import com.sarajuhosova.graffe.model.property.StringProperty
 import com.sarajuhosova.graffe.parser.Parser
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DynamicTest
@@ -49,8 +50,8 @@ class RelationshipDeclTest {
                     "b",
                     Arrow.RIGHT,
                     listOf(
-                        StringProperty("key1", "value1"),
-                        StringProperty("key2", "value2")
+                        GRaffeProperty("key1", StringProperty("value1")),
+                        GRaffeProperty("key2", StringProperty("value2"))
                     )
                 )
             )

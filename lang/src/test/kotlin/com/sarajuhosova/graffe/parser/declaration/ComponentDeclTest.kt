@@ -1,7 +1,8 @@
 package com.sarajuhosova.graffe.parser.declaration
 
+import com.sarajuhosova.graffe.model.ast.statement.GRaffeProperty
 import com.sarajuhosova.graffe.model.ast.statement.declaration.ComponentDeclaration
-import com.sarajuhosova.graffe.model.ast.statement.property.StringProperty
+import com.sarajuhosova.graffe.model.property.StringProperty
 import com.sarajuhosova.graffe.parser.Parser
 import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.Test
@@ -41,8 +42,8 @@ class ComponentDeclTest {
 
         assertThat(parsed.declarations)
             .containsOnly(ComponentDeclaration("a", listOf(
-                StringProperty("key1", "value1"),
-                StringProperty("key2", "value2")
+                GRaffeProperty("key1", StringProperty("value1")),
+                GRaffeProperty("key2", StringProperty("value2"))
             )))
     }
 
@@ -81,12 +82,12 @@ class ComponentDeclTest {
         println(parsed.declarations.first())
 
         val expected = ComponentDeclaration("a", listOf(
-            StringProperty("key1", "value1"),
+            GRaffeProperty("key1", StringProperty("value1")),
             ComponentDeclaration("b"),
             ComponentDeclaration("c", listOf(
-                StringProperty("key2", "value2")
+                GRaffeProperty("key2", StringProperty("value2"))
             )),
-            StringProperty("key3", "value3"),
+            GRaffeProperty("key3", StringProperty("value3")),
             ComponentDeclaration("d")
         ))
 

@@ -2,7 +2,7 @@ package com.sarajuhosova.graffe.model.ast.statement.declaration
 
 import com.sarajuhosova.graffe.enums.Arrow
 import com.sarajuhosova.graffe.helper.buildIndented
-import com.sarajuhosova.graffe.model.ast.statement.property.GRaffeProperty
+import com.sarajuhosova.graffe.model.ast.statement.GRaffeProperty
 
 data class RelationshipDeclaration(
     val source: String,

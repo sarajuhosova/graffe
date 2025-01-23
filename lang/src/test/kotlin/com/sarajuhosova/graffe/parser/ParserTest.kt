@@ -1,10 +1,11 @@
 package com.sarajuhosova.graffe.parser
 
 import com.sarajuhosova.graffe.enums.Arrow
+import com.sarajuhosova.graffe.model.ast.statement.GRaffeProperty
 import com.sarajuhosova.graffe.model.ast.statement.declaration.ComponentDeclaration
 import com.sarajuhosova.graffe.model.ast.statement.declaration.IncludeDeclaration
 import com.sarajuhosova.graffe.model.ast.statement.declaration.RelationshipDeclaration
-import com.sarajuhosova.graffe.model.ast.statement.property.StringProperty
+import com.sarajuhosova.graffe.model.property.StringProperty
 import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.Test
 
@@ -27,10 +28,10 @@ class ParserTest {
 
         assertThat(parsed.declarations).containsExactly(
             ComponentDeclaration("a", listOf(
-                StringProperty("hello", "world"),
+                GRaffeProperty("hello", StringProperty("world")),
                 IncludeDeclaration("c.a", "f"),
                 ComponentDeclaration("b", listOf(
-                    StringProperty("hoi", "13")
+                    GRaffeProperty("hoi", StringProperty("13"))
                 )),
                 RelationshipDeclaration("b", "c", Arrow.BOTH, emptyList()),
                 RelationshipDeclaration("c", "f", Arrow.NONE, emptyList()),
@@ -38,10 +39,10 @@ class ParserTest {
             IncludeDeclaration("d"),
             RelationshipDeclaration(
                 "a", "d", Arrow.RIGHT, listOf(
-                    StringProperty("prop", "hello")
+                    GRaffeProperty("prop", StringProperty("hello"))
                 )
             ),
-            RelationshipDeclaration("a", "d", Arrow.LEFT, emptyList()),
+            RelationshipDeclaration("a", "d", Arrow.LEFT, emptyList())
         )
     }
 
