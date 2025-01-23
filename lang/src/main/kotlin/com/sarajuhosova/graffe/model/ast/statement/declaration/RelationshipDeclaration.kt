@@ -1,7 +1,7 @@
 package com.sarajuhosova.graffe.model.ast.statement.declaration
 
 import com.sarajuhosova.graffe.enums.Arrow
-import com.sarajuhosova.graffe.helper.indentedBlock
+import com.sarajuhosova.graffe.helper.buildIndented
 import com.sarajuhosova.graffe.model.ast.statement.property.GRaffeProperty
 
 data class RelationshipDeclaration(
@@ -11,11 +11,9 @@ data class RelationshipDeclaration(
     val properties: List<GRaffeProperty> = emptyList()
 ): GRaffeDeclaration() {
 
-    override fun toString(): String =
-        """
-            $source $arrow $target {
-                ${properties.indentedBlock()}
-            }
-        """.trimIndent()
+    override fun toString(): String = buildIndented(
+        "$source $arrow $target",
+        properties
+    )
 
 }

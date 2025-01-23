@@ -5,7 +5,6 @@ import com.sarajuhosova.graffe.model.ast.statement.declaration.ComponentDeclarat
 import com.sarajuhosova.graffe.model.ast.statement.declaration.IncludeDeclaration
 import com.sarajuhosova.graffe.model.ast.statement.declaration.RelationshipDeclaration
 import com.sarajuhosova.graffe.model.ast.statement.property.StringProperty
-import com.sarajuhosova.graffe.readToCharStream
 import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.Test
 

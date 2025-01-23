@@ -1,6 +1,6 @@
 package com.sarajuhosova.graffe.model.ast.statement.declaration
 
-import com.sarajuhosova.graffe.helper.indentedBlock
+import com.sarajuhosova.graffe.helper.buildIndented
 import com.sarajuhosova.graffe.model.ast.statement.GRaffeStatement
 
 data class ComponentDeclaration(
@@ -9,10 +9,6 @@ data class ComponentDeclaration(
 ): GRaffeDeclaration() {
 
     override fun toString(): String =
-        """
-            $name {
-                ${statements.indentedBlock()}
-            }
-        """.trimIndent()
+        buildIndented(name, statements)
 
 }

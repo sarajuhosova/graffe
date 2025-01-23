@@ -1,4 +1,4 @@
-package com.sarajuhosova.graffe
+package com.sarajuhosova.graffe.parser
 
 import org.antlr.v4.runtime.CharStream
 import org.antlr.v4.runtime.CharStreams
