@@ -1,6 +1,6 @@
 package com.sarajuhosova.graffe.enums
 
-import com.sarajuhosova.graffe.exception.parse.InvalidArrowException
+import com.sarajuhosova.graffe.exception.parsing.InvalidArrowException
 
 enum class Arrow(val symbol: String) {
     LEFT("<-"),

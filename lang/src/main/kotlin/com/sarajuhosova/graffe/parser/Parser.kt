@@ -2,7 +2,7 @@ package com.sarajuhosova.graffe.parser
 
 import com.sarajuhosova.graffe.GRaffeLexer
 import com.sarajuhosova.graffe.GRaffeParser
-import com.sarajuhosova.graffe.exception.parse.NotAProgramException
+import com.sarajuhosova.graffe.exception.parsing.NotAProgramException
 import com.sarajuhosova.graffe.model.ast.GRaffeElement
 import com.sarajuhosova.graffe.model.ast.GRaffeProgram
 import org.antlr.v4.runtime.CharStream
@@ -21,7 +21,7 @@ object Parser {
         return parsed
     }
 
-    fun parse(stream: CharStream): GRaffeElement {
+    private fun parse(stream: CharStream): GRaffeElement {
         val lexer = GRaffeLexer(stream)
         val tokens = CommonTokenStream(lexer)
         val parser = GRaffeParser(tokens)
