@@ -1,5 +1,6 @@
 package com.sarajuhosova.graffe.parser.declaration
 
+import com.sarajuhosova.graffe.model.QName
 import com.sarajuhosova.graffe.model.ast.statement.declaration.IncludeDeclaration
 import com.sarajuhosova.graffe.parser.Parser
 import org.assertj.core.api.Assertions.assertThat
@@ -14,7 +15,7 @@ class IncludeDeclTest {
         val parsed = Parser.parseProgram(input)
 
         assertThat(parsed.declarations)
-            .containsExactly(IncludeDeclaration(listOf("a")))
+            .containsExactly(IncludeDeclaration("a"))
     }
 
     @Test
@@ -24,7 +25,42 @@ class IncludeDeclTest {
         val parsed = Parser.parseProgram(input)
 
         assertThat(parsed.declarations)
-            .containsExactly(IncludeDeclaration(listOf("a", "bb", "cd")))
+            .containsExactly(IncludeDeclaration("a", "bb", "cd"))
+    }
+
+    @Test
+    fun `include declaration parses with one qualified include`() {
+        val input = "include a.b.c;"
+
+        val parsed = Parser.parseProgram(input)
+
+        assertThat(parsed.declarations)
+            .containsExactly(IncludeDeclaration("a.b.c"))
+    }
+
+    @Test
+    fun `include declaration parses with multiple qualified includes`() {
+        val input = "include a.b.c c.d;"
+
+        val parsed = Parser.parseProgram(input)
+
+        assertThat(parsed.declarations)
+            .containsExactly(IncludeDeclaration(listOf(
+                QName("a", "b", "c"),
+                QName("c", "d")
+            )))
+    }
+
+    @Test
+    fun `include declaration parses with multiple (un)qualified includes`() {
+        val input = "include f a.b.c c.d g;"
+
+        val parsed = Parser.parseProgram(input)
+
+        assertThat(parsed.declarations)
+            .containsExactly(IncludeDeclaration(
+                "f", "a.b.c", "c.d", "g"
+            ))
     }
 
 }

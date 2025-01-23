@@ -7,4 +7,8 @@ data class StringProperty(
 
     override fun valueToString(): String = "\"$value\""
 
+    override fun toString(): String {
+        return super.toString()
+    }
+
 }

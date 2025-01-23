@@ -1,7 +1,7 @@
 a {
     hello: "world";
 
-    include c f;
+    include c.a f;
 
     b {
         hoi: "13";

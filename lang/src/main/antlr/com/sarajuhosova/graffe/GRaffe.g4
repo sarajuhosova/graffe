@@ -10,7 +10,9 @@ declaration
 
 componentDecl : Name ('{' statement* '}' | EOL);
 relationshipDecl : Name Arrow Name ('{' property* '}' | EOL);
-includeDecl : 'include' Name+ EOL;
+includeDecl : 'include' qname+ EOL;
+
+qname : Name ('.' Name)*;
 
 statement
     : property

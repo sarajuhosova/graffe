@@ -29,14 +29,14 @@ class ParserTest {
         assertThat(parsed.declarations).containsExactly(
             ComponentDeclaration("a", listOf(
                 StringProperty("hello", "world"),
-                IncludeDeclaration(listOf("c", "f")),
+                IncludeDeclaration("c.a", "f"),
                 ComponentDeclaration("b", listOf(
                     StringProperty("hoi", "13")
                 )),
                 RelationshipDeclaration("b", "c", Arrow.BOTH, emptyList()),
                 RelationshipDeclaration("c", "f", Arrow.NONE, emptyList()),
             )),
-            IncludeDeclaration(listOf("d")),
+            IncludeDeclaration("d"),
             RelationshipDeclaration(
                 "a", "d", Arrow.RIGHT, listOf(
                     StringProperty("prop", "hello")

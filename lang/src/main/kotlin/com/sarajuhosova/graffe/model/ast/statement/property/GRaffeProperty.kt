@@ -2,7 +2,7 @@ package com.sarajuhosova.graffe.model.ast.statement.property
 
 import com.sarajuhosova.graffe.model.ast.statement.GRaffeStatement
 
-abstract class GRaffeProperty: GRaffeStatement() {
+sealed class GRaffeProperty: GRaffeStatement() {
     abstract val name: String
     abstract val value: Any
 

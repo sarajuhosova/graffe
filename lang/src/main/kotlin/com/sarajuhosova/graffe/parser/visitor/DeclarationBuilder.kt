@@ -3,6 +3,7 @@ package com.sarajuhosova.graffe.parser.visitor
 import com.sarajuhosova.graffe.GRaffeBaseVisitor
 import com.sarajuhosova.graffe.GRaffeParser
 import com.sarajuhosova.graffe.enums.Arrow
+import com.sarajuhosova.graffe.model.QName
 import com.sarajuhosova.graffe.model.ast.statement.declaration.ComponentDeclaration
 import com.sarajuhosova.graffe.model.ast.statement.declaration.GRaffeDeclaration
 import com.sarajuhosova.graffe.model.ast.statement.declaration.IncludeDeclaration
@@ -43,7 +44,9 @@ object DeclarationBuilder : GRaffeBaseVisitor<GRaffeDeclaration>() {
     override fun visitIncludeDecl(
         ctx: GRaffeParser.IncludeDeclContext
     ): IncludeDeclaration {
-        return IncludeDeclaration(ctx.Name().map { it.text })
+        return IncludeDeclaration(ctx.qname()
+            .map { q -> QName(q.Name().map { name -> name.text }) }
+        )
     }
 
 }
