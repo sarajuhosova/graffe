@@ -1,9 +1,14 @@
 package com.sarajuhosova.graffe.model.graph
 
+import com.sarajuhosova.graffe.model.graph.structure.PropertyMap
+
 data class Node(
+    val name: String,
+    var child: Graph? = null,
     val properties: PropertyMap = PropertyMap(),
-    val children: MutableList<Graph> = mutableListOf()
-) {
+) : GRaffe() {
+
+    fun addProperty(property: Property) { properties.addProperty(property) }
 
     /**
      * Merge another node into this node.
@@ -11,8 +16,12 @@ data class Node(
     fun merge(other: Node?) {
         if (other == null) return
 
+        // merge the properties
         properties.addProperties(other.properties)
-        children.addAll(other.children)
+
+        // merge the child graph
+        if (child == null) child = other.child
+        else child?.merge(other.child)
     }
 
 }

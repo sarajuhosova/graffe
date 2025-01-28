@@ -1,6 +1,5 @@
 package com.sarajuhosova.graffe.parser
 
-import com.sarajuhosova.graffe.enums.Arrow
 import com.sarajuhosova.graffe.model.ast.statement.GRaffeProperty
 import com.sarajuhosova.graffe.model.ast.statement.declaration.ComponentDeclaration
 import com.sarajuhosova.graffe.model.ast.statement.declaration.IncludeDeclaration
@@ -33,16 +32,16 @@ class ParserTest {
                 ComponentDeclaration("b", listOf(
                     GRaffeProperty("hoi", StringProperty("13"))
                 )),
-                RelationshipDeclaration("b", "c", Arrow.BOTH, emptyList()),
-                RelationshipDeclaration("c", "f", Arrow.NONE, emptyList()),
+                RelationshipDeclaration("b", "c", RelationshipDeclaration.Arrow.BOTH, emptyList()),
+                RelationshipDeclaration("c", "f", RelationshipDeclaration.Arrow.NONE, emptyList()),
             )),
             IncludeDeclaration("d"),
             RelationshipDeclaration(
-                "a", "d", Arrow.RIGHT, listOf(
+                "a", "d", RelationshipDeclaration.Arrow.RIGHT, listOf(
                     GRaffeProperty("prop", StringProperty("hello"))
                 )
             ),
-            RelationshipDeclaration("a", "d", Arrow.LEFT, emptyList())
+            RelationshipDeclaration("a", "d", RelationshipDeclaration.Arrow.LEFT, emptyList())
         )
     }
 

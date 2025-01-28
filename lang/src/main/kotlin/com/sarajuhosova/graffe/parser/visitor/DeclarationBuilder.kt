@@ -2,7 +2,6 @@ package com.sarajuhosova.graffe.parser.visitor
 
 import com.sarajuhosova.graffe.GRaffeBaseVisitor
 import com.sarajuhosova.graffe.GRaffeParser
-import com.sarajuhosova.graffe.enums.Arrow
 import com.sarajuhosova.graffe.model.QName
 import com.sarajuhosova.graffe.model.ast.statement.declaration.ComponentDeclaration
 import com.sarajuhosova.graffe.model.ast.statement.declaration.GRaffeDeclaration
@@ -33,7 +32,7 @@ object DeclarationBuilder : GRaffeBaseVisitor<GRaffeDeclaration>() {
         return RelationshipDeclaration(
             ctx.Name().first().text,
             ctx.Name().last().text,
-            Arrow.fromString(ctx.Arrow().text),
+            RelationshipDeclaration.Arrow.fromString(ctx.Arrow().text),
             ctx.property().map { ASTBuilder.visitProperty(it) }
         )
     }

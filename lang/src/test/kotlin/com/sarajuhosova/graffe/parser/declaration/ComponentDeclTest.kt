@@ -79,8 +79,6 @@ class ComponentDeclTest {
 
         val parsed = Parser.parseProgram(input)
 
-        println(parsed.declarations.first())
-
         val expected = ComponentDeclaration("a", listOf(
             GRaffeProperty("key1", StringProperty("value1")),
             ComponentDeclaration("b"),

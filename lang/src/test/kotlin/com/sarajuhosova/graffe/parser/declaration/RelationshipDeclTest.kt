@@ -1,6 +1,5 @@
 package com.sarajuhosova.graffe.parser.declaration
 
-import com.sarajuhosova.graffe.enums.Arrow
 import com.sarajuhosova.graffe.model.ast.statement.GRaffeProperty
 import com.sarajuhosova.graffe.model.ast.statement.declaration.RelationshipDeclaration
 import com.sarajuhosova.graffe.model.property.StringProperty
@@ -14,7 +13,7 @@ class RelationshipDeclTest {
 
     @TestFactory
     fun `empty relationship is valid with all arrows`() =
-        Arrow.entries
+        RelationshipDeclaration.Arrow.entries
             .map { arrow ->
                 DynamicTest.dynamicTest(
                     "arrow ${arrow.symbol} is valid"
@@ -31,7 +30,7 @@ class RelationshipDeclTest {
         val input = "a <-> b {}"
         val parsed = Parser.parseProgram(input)
         assertThat(parsed.declarations)
-            .containsOnly(RelationshipDeclaration("a", "b", Arrow.BOTH))
+            .containsOnly(RelationshipDeclaration("a", "b", RelationshipDeclaration.Arrow.BOTH))
     }
 
     @Test
@@ -48,7 +47,7 @@ class RelationshipDeclTest {
                 RelationshipDeclaration(
                     "a",
                     "b",
-                    Arrow.RIGHT,
+                    RelationshipDeclaration.Arrow.RIGHT,
                     listOf(
                         GRaffeProperty("key1", StringProperty("value1")),
                         GRaffeProperty("key2", StringProperty("value2"))

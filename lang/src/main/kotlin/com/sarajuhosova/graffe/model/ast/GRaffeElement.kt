@@ -1,3 +1,9 @@
 package com.sarajuhosova.graffe.model.ast
 
-abstract class GRaffeElement
+import com.sarajuhosova.graffe.model.graph.GRaffe
+
+abstract class GRaffeElement {
+
+    abstract fun generate(): GRaffe
+
+}
