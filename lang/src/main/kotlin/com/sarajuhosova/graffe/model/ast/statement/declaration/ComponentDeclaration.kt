@@ -14,12 +14,13 @@ data class ComponentDeclaration(
     override fun generate(): Node {
         val node = Node(name)
 
-        statements.filterIsInstance<GRaffeProperty>()
-            .forEach { node.addProperty(it.generate()) }
+        for (property in statements.filterIsInstance<GRaffeProperty>()) {
+            node.addProperty(property.generate())
+        }
 
         val declarations = statements.filterIsInstance<GRaffeDeclaration>()
         if (declarations.isNotEmpty()) {
-            node.child = Graph.fromDeclarations(declarations)
+            node.child = Graph.fromDeclarations(declarations, node)
         }
 
         return node

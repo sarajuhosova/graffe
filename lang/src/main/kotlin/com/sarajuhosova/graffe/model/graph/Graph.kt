@@ -1,22 +1,30 @@
 package com.sarajuhosova.graffe.model.graph
 
+import com.sarajuhosova.graffe.exception.generation.MissingComponentsException
 import com.sarajuhosova.graffe.model.ast.statement.declaration.ComponentDeclaration
 import com.sarajuhosova.graffe.model.ast.statement.declaration.GRaffeDeclaration
 import com.sarajuhosova.graffe.model.ast.statement.declaration.IncludeDeclaration
 import com.sarajuhosova.graffe.model.ast.statement.declaration.RelationshipDeclaration
+import com.sarajuhosova.graffe.model.dto.Component
 
 data class Graph(
+    private val parent: Node?,
     private val nodes: MutableMap<String, Node> = mutableMapOf(),
     private val edges: MutableList<Edge> = mutableListOf()
 ) : GRaffe() {
 
     fun size(): Int = nodes.size
 
-    fun get(name: String): Pair<Node, List<Edge>>? {
-        if (name !in nodes) return null
-        val edges = edges.filter { it.connectsNode(name) }
-        return nodes[name]!! to edges
-    }
+    operator fun get(name: String): Component? =
+        if (name !in nodes) null else Component(getNode(name)!!, getEdges(name), this)
+
+    fun getParent(): Component? =
+        // TODO: fix the empty list here!!
+        if (parent == null) null else Component(parent, emptyList(), this)
+
+    fun getNode(name: String): Node? = nodes[name]
+    fun getEdges(name: String): List<Edge> =
+        edges.filter { it.connectsNode(name) }
 
     fun addNode(node: Node) {
         if (node.name !in nodes) nodes[node.name] = node
@@ -34,9 +42,23 @@ data class Graph(
         edges.addAll(other.edges)
     }
 
+    fun validate() {
+        val missing = mutableListOf<String>()
+        for (edge in edges) {
+            if (edge.relationship.source !in nodes) missing.add(edge.relationship.source)
+            if (edge.relationship.target !in nodes) missing.add(edge.relationship.target)
+        }
+        if (missing.isNotEmpty()) {
+            throw MissingComponentsException(missing)
+        }
+    }
+
+    fun summary(): List<Pair<String, Int>> =
+        nodes.map { it.value.name to getEdges(it.key).size }
+
     companion object {
-        fun fromDeclarations(declarations: List<GRaffeDeclaration>): Graph {
-            val result = Graph()
+        fun fromDeclarations(declarations: List<GRaffeDeclaration>, parent: Node?): Graph {
+            val result = Graph(parent = parent)
             for (declaration in declarations) {
                 when (declaration) {
                     is ComponentDeclaration -> result.addNode(
@@ -48,6 +70,7 @@ data class Graph(
                     )
                 }
             }
+            result.validate()
             return result
         }
     }

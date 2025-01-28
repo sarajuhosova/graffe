@@ -8,7 +8,12 @@ data class Edge(
     val properties: PropertyMap
 ) : GRaffe() {
 
+    fun hasSource(name: String) = relationship.isSource(name)
+    fun hasTarget(name: String) = relationship.isTarget(name)
+
+    fun getOpposite(name: String): String? = relationship.other(name)
+
     fun connectsNode(name: String): Boolean =
-        relationship.source == name || relationship.target == name
+        relationship.connectsTo(name)
 
 }

@@ -9,6 +9,12 @@ class PropertyMap(
 ) {
 
     fun isEmpty(): Boolean = map.isEmpty()
+    fun isNotEmpty(): Boolean = !isEmpty()
+    fun size(): Int = map.size
+
+    operator fun contains(key: String): Boolean = map.containsKey(key)
+    operator fun get(key: String): List<PropertyValue>? = map[key]
+    operator fun set(key: String, value: PropertyValue) { addProperty(key, value) }
 
     private fun addProperty(name: String, value: PropertyValue) {
         map[name] = map.getOrDefault(name, listOf()) + value
@@ -31,6 +37,22 @@ class PropertyMap(
             addProperties(name, values)
         }
     }
+
+    override fun toString(): String = buildString {
+        for ((name, values) in map) {
+            if (values.isEmpty()) continue
+            val first = "$name: ${values[0]}"
+            if (values.size == 1) appendLine(first)
+            else {
+                val spaces = " ".repeat(name.length + 2)
+                val rest = values.drop(1)
+                    .joinToString("\n") { spaces + it }
+
+                appendLine("$first\n$rest")
+            }
+        }
+    }
+
 
     companion object {
 

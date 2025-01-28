@@ -40,13 +40,18 @@ class GeneratorTest {
         ).generate()
 
         assertThat(graph.size()).isEqualTo(2)
-        val data = graph.get("a")
-        assertThat(data).isNotNull()
-        val (node, edges) = data!!
+        assertThat(graph.getNode("a")).isNotNull()
+        assertThat(graph.getNode("b")).isNotNull()
 
-        assertThat(node.name).isEqualTo("a")
-        assertThat(node.child).isNull()
-        assertThat(node.properties.isEmpty()).isTrue()
+        val aEdges = graph.getEdges("a")
+        assertThat(aEdges).hasSize(1)
+        val edge = aEdges.first()
+        assertThat(edge.hasSource("a")).isTrue()
+        assertThat(edge.hasTarget("b")).isTrue()
+
+        val bEdges = graph.getEdges("b")
+        assertThat(bEdges).hasSize(1)
+        assertThat(bEdges.first()).isEqualTo(edge)
     }
 
 }

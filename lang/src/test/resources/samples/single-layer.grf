@@ -1,0 +1,18 @@
+a;
+
+b {
+    label: "Component B";
+    hello: "world";
+    hello: "you";
+}
+
+c {}
+
+a -> b;
+a <- b {
+    label: "The relationship from B to A";
+}
+
+a <> c;
+
+c -- b;

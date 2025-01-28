@@ -10,7 +10,7 @@ data class GRaffeProgram(
     constructor(vararg declarations: GRaffeDeclaration) : this(declarations.toList())
 
     override fun generate(): Graph =
-        Graph.fromDeclarations(declarations)
+        Graph.fromDeclarations(declarations, null)
 
     override fun toString(): String =
         declarations.joinToString("\n\n")
