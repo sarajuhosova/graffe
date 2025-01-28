@@ -27,7 +27,7 @@ data class RelationshipDeclaration(
             { left, right -> Relationship(Relationship.Arrow.DIRECTED, left to right) }
         ),
         BOTH(
-            "<->",
+            "<>",
             { left, right -> Relationship(Relationship.Arrow.REFLEXIVE, left to right) }
         ),
         NONE(

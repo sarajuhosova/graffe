@@ -27,7 +27,7 @@ class RelationshipDeclTest {
 
     @Test
     fun `relationship can have empty brackets`() {
-        val input = "a <-> b {}"
+        val input = "a <> b {}"
         val parsed = Parser.parseProgram(input)
         assertThat(parsed.declarations)
             .containsOnly(RelationshipDeclaration("a", "b", RelationshipDeclaration.Arrow.BOTH))
