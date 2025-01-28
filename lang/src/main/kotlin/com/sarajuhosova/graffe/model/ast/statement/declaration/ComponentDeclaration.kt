@@ -5,6 +5,7 @@ import com.sarajuhosova.graffe.model.ast.statement.GRaffeProperty
 import com.sarajuhosova.graffe.model.ast.statement.GRaffeStatement
 import com.sarajuhosova.graffe.model.graph.Graph
 import com.sarajuhosova.graffe.model.graph.Node
+import com.sarajuhosova.graffe.model.property.StringProperty
 
 data class ComponentDeclaration(
     val name: String,
@@ -24,6 +25,15 @@ data class ComponentDeclaration(
         }
 
         return node
+    }
+
+    override fun type(): String = "Component"
+
+    override fun toGRaffeParseTree(): Pair<ComponentDeclaration, List<GRaffeDeclaration>> {
+        val name = Pair(ComponentDeclaration("Name", listOf(
+            GRaffeProperty("value", StringProperty(name))
+        )), emptyList<GRaffeDeclaration>())
+        return toGRaffeParseTree(listOf(name) + statements.map { it.toGRaffeParseTree() })
     }
 
     override fun toString(): String =

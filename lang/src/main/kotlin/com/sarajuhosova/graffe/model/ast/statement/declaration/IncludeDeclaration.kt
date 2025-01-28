@@ -11,6 +11,11 @@ data class IncludeDeclaration(
         TODO("Not yet implemented")
     }
 
+    override fun type(): String = "Include"
+
+    override fun toGRaffeParseTree(): Pair<ComponentDeclaration, List<GRaffeDeclaration>> =
+        toGRaffeParseTree(includes.map { it.toGRaffeParseTree() })
+
     constructor(vararg includes: String): this(includes.map { QName(it.split(".")) })
 
     init {
