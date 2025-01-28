@@ -13,8 +13,10 @@ data class IncludeDeclaration(
 
     override fun type(): String = "Include"
 
-    override fun toGRaffeParseTree(): Pair<ComponentDeclaration, List<GRaffeDeclaration>> =
-        toGRaffeParseTree(includes.map { it.toGRaffeParseTree() })
+    override fun toGRaffeParseTree(
+        id: String
+    ): Pair<ComponentDeclaration, List<GRaffeDeclaration>> =
+        toGRaffeParseTree(includes.mapIndexed { i, inc -> inc.toGRaffeParseTree("$id-${i + 1}") }, id)
 
     constructor(vararg includes: String): this(includes.map { QName(it.split(".")) })
 

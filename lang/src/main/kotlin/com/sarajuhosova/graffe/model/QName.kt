@@ -10,12 +10,14 @@ data class QName(val path: List<String>) {
 
     constructor(vararg path: String) : this(path.toList())
 
-    fun toGRaffeParseTree(): Pair<ComponentDeclaration, List<GRaffeDeclaration>> {
-        val qname = ComponentDeclaration("QName")
+    fun toGRaffeParseTree(
+        id: String
+    ): Pair<ComponentDeclaration, List<GRaffeDeclaration>> {
+        val qname = ComponentDeclaration("QName$id")
 
-        val names = path.map { ComponentDeclaration(
-            "Name", listOf(
-                GRaffeProperty("value", StringProperty(it))
+        val names = path.mapIndexed { i, n -> ComponentDeclaration(
+            "Name$id-${i + 1}", listOf(
+                GRaffeProperty("value", StringProperty(n))
             )
         ) }
         val relationships = names.map { RelationshipDeclaration(

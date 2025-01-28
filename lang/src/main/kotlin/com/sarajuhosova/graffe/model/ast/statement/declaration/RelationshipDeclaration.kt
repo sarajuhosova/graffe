@@ -58,20 +58,21 @@ data class RelationshipDeclaration(
 
     override fun type(): String = "Relationship"
 
-    override fun toGRaffeParseTree(): Pair<ComponentDeclaration, List<GRaffeDeclaration>> {
+    override fun toGRaffeParseTree(id: String): Pair<ComponentDeclaration, List<GRaffeDeclaration>> {
         val definition = listOf(
-            ComponentDeclaration("Name", listOf(
+            ComponentDeclaration("Name-source$id", listOf(
                 GRaffeProperty("value", StringProperty(left))
             )),
-            ComponentDeclaration("Arrow", listOf(
+            ComponentDeclaration("Arrow$id", listOf(
                 GRaffeProperty("value", StringProperty(arrow.symbol))
             )),
-            ComponentDeclaration("Name", listOf(
+            ComponentDeclaration("Name-target$id", listOf(
                 GRaffeProperty("value", StringProperty(right))
             ))
         ).map { it to emptyList<GRaffeDeclaration>() }
+        val props = properties.mapIndexed { i, p -> p.toGRaffeParseTree("$id-${i + 1}") }
 
-        return toGRaffeParseTree(definition + properties.map { it.toGRaffeParseTree() })
+        return toGRaffeParseTree(definition + props, id)
     }
 
     override fun toString(): String = buildIndented(

@@ -29,11 +29,12 @@ data class ComponentDeclaration(
 
     override fun type(): String = "Component"
 
-    override fun toGRaffeParseTree(): Pair<ComponentDeclaration, List<GRaffeDeclaration>> {
-        val name = Pair(ComponentDeclaration("Name", listOf(
+    override fun toGRaffeParseTree(id: String): Pair<ComponentDeclaration, List<GRaffeDeclaration>> {
+        val name = Pair(ComponentDeclaration("Name$id", listOf(
             GRaffeProperty("value", StringProperty(name))
         )), emptyList<GRaffeDeclaration>())
-        return toGRaffeParseTree(listOf(name) + statements.map { it.toGRaffeParseTree() })
+        val stmts = statements.mapIndexed { i, s -> s.toGRaffeParseTree("$id-${i + 1}") }
+        return toGRaffeParseTree(listOf(name) + stmts, id)
     }
 
     override fun toString(): String =

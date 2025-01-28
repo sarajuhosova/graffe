@@ -1,5 +1,6 @@
 package com.sarajuhosova.graffe.model.ast
 
+import com.sarajuhosova.graffe.helper.ASTid
 import com.sarajuhosova.graffe.model.ast.statement.declaration.ComponentDeclaration
 import com.sarajuhosova.graffe.model.ast.statement.declaration.GRaffeDeclaration
 import com.sarajuhosova.graffe.model.graph.Graph
@@ -15,11 +16,15 @@ data class GRaffeProgram(
     override fun generate(): Graph =
         Graph.fromDeclarations(declarations, null)
 
-    override fun toGRaffeParseTree(): Pair<ComponentDeclaration, List<GRaffeDeclaration>> =
-        toGRaffeParseTree(declarations.map { it.toGRaffeParseTree() })
+    override fun toGRaffeParseTree(
+        id: String
+    ): Pair<ComponentDeclaration, List<GRaffeDeclaration>> {
+        val children = declarations.mapIndexed { i, d -> d.toGRaffeParseTree("$id-${i + 1}") }
+        return toGRaffeParseTree(children, id)
+    }
 
     fun getParseTree(): GRaffeProgram {
-        val (root, children) = toGRaffeParseTree()
+        val (root, children) = toGRaffeParseTree("")
         return GRaffeProgram(listOf(root) + children)
     }
 

@@ -14,14 +14,14 @@ data class GRaffeProperty(
     override fun generate(): Property = Property(name, value)
     override fun type(): String = "Property"
 
-    override fun toGRaffeParseTree(): Pair<ComponentDeclaration, List<GRaffeDeclaration>> {
-        val key = ComponentDeclaration("Name", listOf(
+    override fun toGRaffeParseTree(id: String): Pair<ComponentDeclaration, List<GRaffeDeclaration>> {
+        val key = ComponentDeclaration("Name$id", listOf(
             GRaffeProperty("value", StringProperty(name))
         ))
-        val value = ComponentDeclaration("Value", listOf(
+        val value = ComponentDeclaration("Value$id", listOf(
             GRaffeProperty("value", value)
         ))
-        return toGRaffeParseTree(listOf(key, value).map { it to emptyList() })
+        return toGRaffeParseTree(listOf(key, value).map { it to emptyList() }, id)
     }
 
     override fun toString(): String {

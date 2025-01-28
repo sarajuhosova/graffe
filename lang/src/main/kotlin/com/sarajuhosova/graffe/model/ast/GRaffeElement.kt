@@ -1,5 +1,6 @@
 package com.sarajuhosova.graffe.model.ast
 
+import com.sarajuhosova.graffe.helper.ASTid
 import com.sarajuhosova.graffe.model.ast.statement.declaration.ComponentDeclaration
 import com.sarajuhosova.graffe.model.ast.statement.declaration.GRaffeDeclaration
 import com.sarajuhosova.graffe.model.ast.statement.declaration.RelationshipDeclaration
@@ -12,9 +13,10 @@ abstract class GRaffeElement {
     abstract fun type(): String
 
     protected fun toGRaffeParseTree(
-        children: List<Pair<ComponentDeclaration, List<GRaffeDeclaration>>>
+        children: List<Pair<ComponentDeclaration, List<GRaffeDeclaration>>>,
+        id: String
     ): Pair<ComponentDeclaration, List<GRaffeDeclaration>> {
-        val itself = ComponentDeclaration(type())
+        val itself = ComponentDeclaration("${type()}$id")
 
         val relationships = children.map { (child, _) ->
             RelationshipDeclaration(itself.name, child.name, RelationshipDeclaration.Arrow.RIGHT)
@@ -23,6 +25,6 @@ abstract class GRaffeElement {
         return Pair(itself, children.flatMap { it.second } + relationships)
     }
 
-    abstract fun toGRaffeParseTree(): Pair<ComponentDeclaration, List<GRaffeDeclaration>>
+    abstract fun toGRaffeParseTree(id: String): Pair<ComponentDeclaration, List<GRaffeDeclaration>>
 
 }
