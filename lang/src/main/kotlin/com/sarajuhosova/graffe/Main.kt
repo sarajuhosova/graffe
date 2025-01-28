@@ -1,9 +1,53 @@
 package com.sarajuhosova.graffe
 
+import com.sarajuhosova.graffe.exception.InvalidProgramArgumentsException
 import com.sarajuhosova.graffe.model.dto.Component
 import com.sarajuhosova.graffe.model.graph.Graph
 import com.sarajuhosova.graffe.parser.Parser
 import java.io.File
+
+val USAGE: String = buildString {
+    appendLine("Usage: graffe <file>")
+}
+
+val OPTIONS = mapOf<String, Int>()
+
+@Throws(InvalidProgramArgumentsException::class)
+fun optionsToMap(options: List<String>): Map<String, List<String>> {
+    if (options.isEmpty()) return emptyMap()
+
+    val result = mutableMapOf<String, List<String>>()
+
+    fun addOption(key: String, values: List<String>) {
+        if (key !in OPTIONS.keys)
+            throw InvalidProgramArgumentsException("$key is not a valid option")
+
+        if (OPTIONS[key]!! != values.size)
+            throw InvalidProgramArgumentsException("Expected ${OPTIONS[key]} arguments for $key")
+
+        if (key in result)
+            throw InvalidProgramArgumentsException("$key is defined multiple times")
+
+        // else
+        result[key] = values
+    }
+
+    var key = options.first()
+    var i = 1
+    var values = mutableListOf<String>()
+    while (i < options.size) {
+        val option = options[i]
+        if (option.startsWith("--")) {
+            addOption(key, values)
+
+            key = option
+            values = mutableListOf()
+        } else values.add(option)
+        i++
+    }
+    addOption(key, values)
+    return result
+}
 
 fun parseChoice(input: String): Int =
     try { input.toInt() } catch (_: NumberFormatException) { -1 }
@@ -75,15 +119,21 @@ fun exploreComponent(component: Component) {
 fun main(args: Array<String>) {
     println("Hello, GRaffe!")
 
-    if (args.isEmpty()) {
-        println("Usage: graffe <file>")
-        return
+    try {
+        if (args.isEmpty())
+            throw InvalidProgramArgumentsException("Expected filename as argument")
+        val filename = args[0]
+        val options = optionsToMap(args.drop(1))
+
+        val parsed = Parser.parseProgram(File(filename).readText())
+        val graph = parsed.generate()
+
+        println("File $filename loaded!")
+
+        exploreGraph(graph)
+    } catch (e: InvalidProgramArgumentsException) {
+        println(e.message)
+        println()
+        println(USAGE)
     }
-    val filename = args[0]
-
-    val graph = Parser.parseProgram(File(filename).readText()).generate()
-
-    println("File $filename loaded!")
-
-    exploreGraph(graph)
 }
