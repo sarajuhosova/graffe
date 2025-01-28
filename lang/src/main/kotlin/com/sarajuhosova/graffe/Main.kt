@@ -1,18 +1,21 @@
 package com.sarajuhosova.graffe
 
-import com.sarajuhosova.graffe.exception.InvalidProgramArgumentsException
+import com.sarajuhosova.graffe.exception.InvalidProgramArgumentException
 import com.sarajuhosova.graffe.model.dto.Component
 import com.sarajuhosova.graffe.model.graph.Graph
 import com.sarajuhosova.graffe.parser.Parser
 import java.io.File
 
 val USAGE: String = buildString {
-    appendLine("Usage: graffe <file>")
+    appendLine("Usage: graffe <file> [--parse-tree <output file>]")
+    appendLine("    --parse-tree: Print the parse tree of the input file into the defined output file")
 }
 
-val OPTIONS = mapOf<String, Int>()
+val OPTIONS = mapOf(
+    "--parse-tree" to 1
+)
 
-@Throws(InvalidProgramArgumentsException::class)
+@Throws(InvalidProgramArgumentException::class)
 fun optionsToMap(options: List<String>): Map<String, List<String>> {
     if (options.isEmpty()) return emptyMap()
 
@@ -20,13 +23,13 @@ fun optionsToMap(options: List<String>): Map<String, List<String>> {
 
     fun addOption(key: String, values: List<String>) {
         if (key !in OPTIONS.keys)
-            throw InvalidProgramArgumentsException("$key is not a valid option")
+            throw InvalidProgramArgumentException("$key is not a valid option")
 
         if (OPTIONS[key]!! != values.size)
-            throw InvalidProgramArgumentsException("Expected ${OPTIONS[key]} arguments for $key")
+            throw InvalidProgramArgumentException("Expected ${OPTIONS[key]} arguments for $key")
 
         if (key in result)
-            throw InvalidProgramArgumentsException("$key is defined multiple times")
+            throw InvalidProgramArgumentException("$key is defined multiple times")
 
         // else
         result[key] = values
@@ -121,17 +124,22 @@ fun main(args: Array<String>) {
 
     try {
         if (args.isEmpty())
-            throw InvalidProgramArgumentsException("Expected filename as argument")
+            throw InvalidProgramArgumentException("Expected filename as argument")
         val filename = args[0]
         val options = optionsToMap(args.drop(1))
 
         val parsed = Parser.parseProgram(File(filename).readText())
+        if ("--parse-tree" in options) {
+            val output = options["--parse-tree"]!!.first()
+            File(output).writeText(parsed.getParseTree().toString())
+        }
+
         val graph = parsed.generate()
 
         println("File $filename loaded!")
 
         exploreGraph(graph)
-    } catch (e: InvalidProgramArgumentsException) {
+    } catch (e: InvalidProgramArgumentException) {
         println(e.message)
         println()
         println(USAGE)
