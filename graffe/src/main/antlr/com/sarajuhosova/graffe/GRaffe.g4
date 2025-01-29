@@ -6,11 +6,13 @@ declaration
     : componentDecl
     | relationshipDecl
     | includeDecl
+    | restrictionDecl
     ;
 
 componentDecl : Name ('{' statement* '}' | EOL);
 relationshipDecl : Name Arrow Name ('{' property* '}' | EOL);
 includeDecl : 'include' qname+ EOL;
+restrictionDecl : '#' Restriction '!';
 
 qname : Name ('.' Name)*;
 
@@ -28,6 +30,8 @@ EOL : ';';
 
 String : '"' ( '\\"' | . )*? '"';
 
+Restriction : 'tree' ;
+
 Arrow
     : '->'
     | '<-'
@@ -35,7 +39,7 @@ Arrow
     | '--'
     ;
 
-Name : AlphaNum+ ;
+Name : (AlphaNum | '_')+ ;
 
 AlphaNum
     :  'a'..'z'

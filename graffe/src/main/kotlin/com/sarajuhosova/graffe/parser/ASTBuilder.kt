@@ -14,7 +14,7 @@ import com.sarajuhosova.graffe.parser.visitor.StatementBuilder
 object ASTBuilder : GRaffeBaseVisitor<GRaffeElement>() {
 
     /**
-     * declaration* EOF
+     * restriction* declaration* EOF
      */
     override fun visitProgram(
         ctx: GRaffeParser.ProgramContext

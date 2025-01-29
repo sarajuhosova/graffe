@@ -3,10 +3,7 @@ package com.sarajuhosova.graffe.parser.visitor
 import com.sarajuhosova.graffe.GRaffeBaseVisitor
 import com.sarajuhosova.graffe.GRaffeParser
 import com.sarajuhosova.graffe.model.QName
-import com.sarajuhosova.graffe.model.ast.statement.declaration.ComponentDeclaration
-import com.sarajuhosova.graffe.model.ast.statement.declaration.GRaffeDeclaration
-import com.sarajuhosova.graffe.model.ast.statement.declaration.IncludeDeclaration
-import com.sarajuhosova.graffe.model.ast.statement.declaration.RelationshipDeclaration
+import com.sarajuhosova.graffe.model.ast.statement.declaration.*
 import com.sarajuhosova.graffe.parser.ASTBuilder
 import org.antlr.v4.runtime.tree.ParseTree
 
@@ -37,7 +34,7 @@ object DeclarationBuilder : GRaffeBaseVisitor<GRaffeDeclaration>() {
         return RelationshipDeclaration(
             ctx.Name().first().text,
             ctx.Name().last().text,
-            RelationshipDeclaration.Arrow.fromString(ctx.Arrow().text),
+            ctx.Arrow().text,
             ctx.property().map { ASTBuilder.visitProperty(it) }
         )
     }
@@ -52,5 +49,13 @@ object DeclarationBuilder : GRaffeBaseVisitor<GRaffeDeclaration>() {
             .map { q -> QName(q.Name().map { name -> name.text }) }
         )
     }
+
+    /**
+     * '#' Restriction '!';
+     */
+    override fun visitRestrictionDecl(
+        ctx: GRaffeParser.RestrictionDeclContext
+    ): RestrictionDeclaration =
+        RestrictionDeclaration(ctx.Restriction().text)
 
 }
