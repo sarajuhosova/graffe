@@ -130,15 +130,16 @@ fun main(args: Array<String>) {
 
         val parsed = Parser.parseProgram(File(filename).readText())
         if ("--parse-tree" in options) {
+            // generate the parse tree and save to file
             val output = options["--parse-tree"]!!.first()
             File(output).writeText(parsed.getParseTree().toString())
+            println("Parse tree saved to $output")
+        } else {
+            // interpret the program
+            val graph = parsed.generate()
+            println("File $filename loaded!")
+            exploreGraph(graph)
         }
-
-        val graph = parsed.generate()
-
-        println("File $filename loaded!")
-
-        exploreGraph(graph)
     } catch (e: InvalidProgramArgumentException) {
         println(e.message)
         println()

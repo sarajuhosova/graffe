@@ -8,6 +8,7 @@ import com.sarajuhosova.graffe.model.ast.statement.GRaffeStatement
 import com.sarajuhosova.graffe.model.ast.statement.declaration.ComponentDeclaration
 import com.sarajuhosova.graffe.model.ast.statement.declaration.IncludeDeclaration
 import com.sarajuhosova.graffe.model.ast.statement.declaration.RelationshipDeclaration
+import com.sarajuhosova.graffe.model.property.PropertyValue
 import com.sarajuhosova.graffe.model.property.StringProperty
 
 class ParseTreeBuilder(): GRaffeElementVisitor<ParseTree>() {
@@ -16,7 +17,10 @@ class ParseTreeBuilder(): GRaffeElementVisitor<ParseTree>() {
 
     private fun component(
         name: String, statements: List<GRaffeStatement> = emptyList()
-    ) = ComponentDeclaration("$name-${id++}", statements)
+    ): ComponentDeclaration = ComponentDeclaration("$name-${id++}", statements)
+
+    private fun value(value: String): GRaffeProperty = GRaffeProperty("value", StringProperty(value))
+    private fun value(value: PropertyValue): GRaffeProperty = GRaffeProperty("value", value)
 
     private fun toParseTree(name: String, children: List<ParseTree>): ParseTree {
         val itself = component(name)
@@ -25,7 +29,7 @@ class ParseTreeBuilder(): GRaffeElementVisitor<ParseTree>() {
             RelationshipDeclaration(itself.name, child.name, RelationshipDeclaration.Arrow.RIGHT)
         }
 
-        return Pair(itself, children.flatMap { it.second } + relationships)
+        return Pair(itself, listOf(itself) + children.flatMap { it.second } + relationships)
     }
 
     override fun visitProgram(program: GRaffeProgram): ParseTree {
@@ -34,34 +38,22 @@ class ParseTreeBuilder(): GRaffeElementVisitor<ParseTree>() {
     }
 
     override fun visitProperty(property: GRaffeProperty): ParseTree {
-        val key = component("Name", listOf(
-            GRaffeProperty("value", StringProperty(property.name))
-        ))
-        val value = component("Value", listOf(
-            GRaffeProperty("value", property.value)
-        ))
+        val key = component("Name", listOf(value(property.name)))
+        val value = component("Value", listOf(value(property.value)))
         return toParseTree("Property", listOf(key, value).map { leaf(it) })
     }
 
     override fun visitComponent(component: ComponentDeclaration): ParseTree {
-        val name = leaf(component("Name", listOf(
-            GRaffeProperty("value", StringProperty(component.name))
-        )))
+        val name = leaf(component("Name", listOf(value(component.name))))
         val stmts = component.statements.map { visitStatement(it) }
         return toParseTree("Component", listOf(name) + stmts)
     }
 
     override fun visitRelationship(relationship: RelationshipDeclaration): ParseTree {
         val definition = listOf(
-            component("Name", listOf(
-                GRaffeProperty("value", StringProperty(relationship.left))
-            )),
-            component("Arrow", listOf(
-                GRaffeProperty("value", StringProperty(relationship.arrow.symbol))
-            )),
-            component("Name", listOf(
-                GRaffeProperty("value", StringProperty(relationship.right))
-            ))
+            component("Name", listOf(value(relationship.left))),
+            component("Arrow", listOf(value(relationship.arrow.symbol))),
+            component("Name", listOf(value(relationship.right)))
         ).map { leaf(it) }
         val props = relationship.properties.map { visitProperty(it) }
 
@@ -72,16 +64,14 @@ class ParseTreeBuilder(): GRaffeElementVisitor<ParseTree>() {
         toParseTree("Include", include.includes.map { visitQName(it) })
 
     private fun visitQName(qName: QName): ParseTree {
-        val qname = component("QName")
+        val component = component("QName")
 
-        val names = qName.path.map { component("Name", listOf(
-            GRaffeProperty("value", StringProperty(it))
-        )) }
+        val names = qName.path.map { component("Name", listOf(value(it))) }
         val relationships = names.map { RelationshipDeclaration(
-            qname.name, it.name, RelationshipDeclaration.Arrow.RIGHT
+            component.name, it.name, RelationshipDeclaration.Arrow.RIGHT
         ) }
 
-        return qname to names + relationships
+        return component to listOf(component) + names + relationships
     }
 
 }
