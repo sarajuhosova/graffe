@@ -13,6 +13,11 @@ a <- b {
     label: "The relationship from B to A";
 }
 
+b {
+    property: "voila!";
+    hello: "darkness, my old friend";
+}
+
 a <> c;
 
 c -- b;
