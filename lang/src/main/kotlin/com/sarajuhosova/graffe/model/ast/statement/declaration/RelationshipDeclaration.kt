@@ -6,7 +6,6 @@ import com.sarajuhosova.graffe.model.ast.statement.GRaffeProperty
 import com.sarajuhosova.graffe.model.graph.Edge
 import com.sarajuhosova.graffe.model.graph.structure.PropertyMap
 import com.sarajuhosova.graffe.model.graph.structure.Relationship
-import com.sarajuhosova.graffe.model.property.StringProperty
 
 data class RelationshipDeclaration(
     val left: String,
@@ -55,25 +54,6 @@ data class RelationshipDeclaration(
 
     override fun generate(): Edge =
         Edge(mapper(), PropertyMap.fromGRaffeProperties(properties))
-
-    override fun type(): String = "Relationship"
-
-    override fun toGRaffeParseTree(id: String): Pair<ComponentDeclaration, List<GRaffeDeclaration>> {
-        val definition = listOf(
-            ComponentDeclaration("Name-source$id", listOf(
-                GRaffeProperty("value", StringProperty(left))
-            )),
-            ComponentDeclaration("Arrow$id", listOf(
-                GRaffeProperty("value", StringProperty(arrow.symbol))
-            )),
-            ComponentDeclaration("Name-target$id", listOf(
-                GRaffeProperty("value", StringProperty(right))
-            ))
-        ).map { it to emptyList<GRaffeDeclaration>() }
-        val props = properties.mapIndexed { i, p -> p.toGRaffeParseTree("$id-${i + 1}") }
-
-        return toGRaffeParseTree(definition + props, id)
-    }
 
     override fun toString(): String = buildIndented(
         "$left $arrow $right",
