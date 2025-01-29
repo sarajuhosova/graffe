@@ -14,6 +14,13 @@ data class RelationshipDeclaration(
     val properties: List<GRaffeProperty> = emptyList()
 ): GRaffeDeclaration() {
 
+    constructor(
+        left: String,
+        right: String,
+        arrow: String,
+        properties: List<GRaffeProperty> = emptyList()
+    ) : this(left, right, Arrow.fromString(arrow), properties)
+
     enum class Arrow(
         val symbol: String,
         val mapper: (String, String) -> Relationship
