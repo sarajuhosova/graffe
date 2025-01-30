@@ -3,4 +3,4 @@ plugins {
 }
 rootProject.name = "GRaffe"
 
-include(":lang")
+include(":lang", ":language-server")

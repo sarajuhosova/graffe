@@ -15,7 +15,7 @@ tasks.generateGrammarSource {
     outputDirectory = file("$rootDir/build/generated/sources/main/java/antlr")
 
     arguments = arguments +
-            "-package" + "com.sarajuhosova.graffe" +
+            "-package" + "com.sarajuhosova.graffe.lang" +
             "-visitor"
 }
 
@@ -45,5 +45,5 @@ idea {
 }
 
 application {
-    mainClass = "com.sarajuhosova.graffe.MainKt"
+    mainClass = "com.sarajuhosova.graffe.lang.MainKt"
 }
