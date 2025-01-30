@@ -1,4 +1,4 @@
 dependencies {
-    implementation(project(":lang"))
+    implementation(project(":graffe"))
     implementation(libs.lsp4j)
 }
