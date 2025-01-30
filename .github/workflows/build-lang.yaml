@@ -1,4 +1,4 @@
-name: Build Lang Project
+name: Build Gradle Project
 
 on:
   push:
@@ -27,6 +27,6 @@ jobs:
         with:
           gradle-version: 8.10.2
       - name: 'Build'
-        run: gradle :lang:assemble :lang:testClasses
+        run: gradle assemble testClasses
       - name: 'Test'
-        run: gradle :lang:check
+        run: gradle check
