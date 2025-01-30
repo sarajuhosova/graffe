@@ -1,0 +1,11 @@
+[versions]
+
+antlr = "4.13.2" #
+lsp4j = "0.23.1" # https://github.com/eclipse-lsp4j/lsp4j
+
+[libraries]
+
+antlr4 = { module = "org.antlr:antlr4", version.ref = "antlr" }
+
+lsp4j = { module = "org.eclipse.lsp4j:org.eclipse.lsp4j", version.ref = "lsp4j" }
+lsp4j-jsonrpc = { module = "org.eclipse.lsp4j:org.eclipse.lsp4j.jsonrpc", version.ref = "lsp4j" }
