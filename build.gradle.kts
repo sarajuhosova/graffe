@@ -4,8 +4,10 @@ plugins {
 }
 
 allprojects {
-    apply(plugin = "java")
+    val libraries = rootProject.libs
+
     apply(plugin = "kotlin")
+    apply(plugin = "java")
 
     group = "com.sarajuhosova.graffe"
     version = "1.0-SNAPSHOT"
@@ -16,7 +18,7 @@ allprojects {
 
     dependencies {
         testImplementation(kotlin("test"))
-        testImplementation("org.assertj:assertj-core:3.27.3")
+        testImplementation(libraries.assertj)
     }
 
     tasks.test {

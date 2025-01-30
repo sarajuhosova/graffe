@@ -1,7 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm")
     antlr
     idea
     application
@@ -12,7 +11,7 @@ dependencies {
 }
 
 tasks.generateGrammarSource {
-    outputDirectory = file("$rootDir/build/generated/sources/main/java/antlr")
+    outputDirectory = file("$projectDir/build/generated/sources/main/java/antlr")
 
     arguments = arguments +
             "-package" + "com.sarajuhosova.graffe.lang" +
@@ -38,9 +37,10 @@ sourceSets {
         }
     }
 }
+
 idea {
     module {
-        sourceDirs.add(file("$rootDir/src/main/antlr"))
+        sourceDirs.add(file("$projectDir/src/main/antlr"))
     }
 }
 
