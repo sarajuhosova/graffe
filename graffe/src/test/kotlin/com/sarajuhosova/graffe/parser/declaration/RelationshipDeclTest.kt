@@ -4,6 +4,7 @@ import com.sarajuhosova.graffe.model.ast.statement.GRaffeProperty
 import com.sarajuhosova.graffe.model.ast.statement.declaration.RelationshipDeclaration
 import com.sarajuhosova.graffe.model.property.StringProperty
 import com.sarajuhosova.graffe.parser.Parser
+import com.sarajuhosova.graffe.test.parseProgramAsserted
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
@@ -19,7 +20,7 @@ class RelationshipDeclTest {
                     "arrow ${arrow.symbol} is valid"
                 ) {
                     val input = "a ${arrow.symbol} b;"
-                    val parsed = Parser.parseProgram(input)
+                    val parsed = Parser.parseProgramAsserted(input)
                     assertThat(parsed.declarations)
                         .containsOnly(RelationshipDeclaration("a", "b", arrow))
                 }
@@ -28,7 +29,7 @@ class RelationshipDeclTest {
     @Test
     fun `relationship can have empty brackets`() {
         val input = "a <> b {}"
-        val parsed = Parser.parseProgram(input)
+        val parsed = Parser.parseProgramAsserted(input)
         assertThat(parsed.declarations)
             .containsOnly(RelationshipDeclaration("a", "b", RelationshipDeclaration.Arrow.BOTH))
     }
@@ -41,7 +42,7 @@ class RelationshipDeclTest {
                 key2: "value2";
             }
         """.trimIndent()
-        val parsed = Parser.parseProgram(input)
+        val parsed = Parser.parseProgramAsserted(input)
         assertThat(parsed.declarations)
             .containsOnly(
                 RelationshipDeclaration(

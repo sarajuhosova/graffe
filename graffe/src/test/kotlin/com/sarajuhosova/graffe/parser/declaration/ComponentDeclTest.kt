@@ -4,6 +4,7 @@ import com.sarajuhosova.graffe.model.ast.statement.GRaffeProperty
 import com.sarajuhosova.graffe.model.ast.statement.declaration.ComponentDeclaration
 import com.sarajuhosova.graffe.model.property.StringProperty
 import com.sarajuhosova.graffe.parser.Parser
+import com.sarajuhosova.graffe.test.parseProgramAsserted
 import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.Test
 
@@ -13,7 +14,7 @@ class ComponentDeclTest {
     fun `empty declaration is valid`() {
         val input = "a;"
 
-        val parsed = Parser.parseProgram(input)
+        val parsed = Parser.parseProgramAsserted(input)
 
         assertThat(parsed.declarations)
             .containsOnly(ComponentDeclaration("a"))
@@ -23,7 +24,7 @@ class ComponentDeclTest {
     fun `brackets declaration is valid`() {
         val input = "a {}"
 
-        val parsed = Parser.parseProgram(input)
+        val parsed = Parser.parseProgramAsserted(input)
 
         assertThat(parsed.declarations)
             .containsOnly(ComponentDeclaration("a"))
@@ -38,7 +39,7 @@ class ComponentDeclTest {
             }
         """.trimIndent()
 
-        val parsed = Parser.parseProgram(input)
+        val parsed = Parser.parseProgramAsserted(input)
 
         assertThat(parsed.declarations)
             .containsOnly(ComponentDeclaration("a", listOf(
@@ -55,7 +56,7 @@ class ComponentDeclTest {
             }
         """.trimIndent()
 
-        val parsed = Parser.parseProgram(input)
+        val parsed = Parser.parseProgramAsserted(input)
 
         assertThat(parsed.declarations)
             .containsOnly(ComponentDeclaration("a", listOf(
@@ -77,7 +78,7 @@ class ComponentDeclTest {
             }
         """.trimIndent()
 
-        val parsed = Parser.parseProgram(input)
+        val parsed = Parser.parseProgramAsserted(input)
 
         val expected = ComponentDeclaration("a", listOf(
             GRaffeProperty("key1", StringProperty("value1")),

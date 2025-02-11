@@ -11,13 +11,13 @@ import com.sarajuhosova.graffe.parser.visitor.DeclarationBuilder
 import com.sarajuhosova.graffe.parser.visitor.PropertyValueBuilder
 import com.sarajuhosova.graffe.parser.visitor.StatementBuilder
 
-object ASTBuilder : com.sarajuhosova.graffe.GRaffeBaseVisitor<GRaffeElement>() {
+object ASTBuilder : GRaffeBaseVisitor<GRaffeElement>() {
 
     /**
      * declaration* EOF
      */
-    override fun visitParse(
-        ctx: com.sarajuhosova.graffe.GRaffeParser.ParseContext
+    override fun visitProgram(
+        ctx: GRaffeParser.ProgramContext
     ): GRaffeProgram =
         GRaffeProgram(ctx.declaration().map { visitDeclaration(it) })
 
@@ -29,9 +29,9 @@ object ASTBuilder : com.sarajuhosova.graffe.GRaffeBaseVisitor<GRaffeElement>() {
      *     ;
      */
     override fun visitDeclaration(
-        ctx: com.sarajuhosova.graffe.GRaffeParser.DeclarationContext?
+        ctx: GRaffeParser.DeclarationContext
     ): GRaffeDeclaration =
-        DeclarationBuilder.visit(ctx)
+        DeclarationBuilder.visitDeclaration(ctx)
 
     /**
      * statement
@@ -40,15 +40,15 @@ object ASTBuilder : com.sarajuhosova.graffe.GRaffeBaseVisitor<GRaffeElement>() {
      *     ;
      */
     override fun visitStatement(
-        ctx: com.sarajuhosova.graffe.GRaffeParser.StatementContext?
+        ctx: GRaffeParser.StatementContext
     ): GRaffeStatement =
-        StatementBuilder.visitStatement(ctx)
+        StatementBuilder.visit(ctx)
 
     /**
      * Name ':' value EOL
      */
     override fun visitProperty(
-        ctx: com.sarajuhosova.graffe.GRaffeParser.PropertyContext
+        ctx: GRaffeParser.PropertyContext
     ): GRaffeProperty =
         GRaffeProperty(ctx.Name().text, PropertyValueBuilder.visit(ctx.value()))
 

@@ -1,6 +1,6 @@
 grammar GRaffe;
 
-parse : declaration* EOF;
+program : declaration* EOF;
 
 declaration
     : componentDecl

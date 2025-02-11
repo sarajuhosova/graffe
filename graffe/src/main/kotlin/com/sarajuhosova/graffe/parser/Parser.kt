@@ -1,32 +1,38 @@
 package com.sarajuhosova.graffe.parser
 
-import com.sarajuhosova.graffe.GRaffeLexer
-import com.sarajuhosova.graffe.GRaffeParser
 import com.sarajuhosova.graffe.exception.parsing.NotAProgramException
 import com.sarajuhosova.graffe.model.ast.GRaffeElement
 import com.sarajuhosova.graffe.model.ast.GRaffeProgram
+import com.sarajuhosova.graffe.parser.error.GRaffeErrorListener
+import com.sarajuhosova.graffe.parser.error.GRaffeErrorStrategy
 import org.antlr.v4.runtime.CharStream
 import org.antlr.v4.runtime.CharStreams
-import org.antlr.v4.runtime.CommonTokenStream
 
 object Parser {
 
-    fun parseProgram(input: String): GRaffeProgram =
+    fun parseProgram(input: String): GRaffeProgram? =
         parseProgram(CharStreams.fromString(input))
 
-    fun parseProgram(stream: CharStream): GRaffeProgram {
-        val parsed = parse(stream)
+    fun parseProgram(stream: CharStream): GRaffeProgram? {
+        val parsed = parse(stream) ?: return null
         if (parsed !is GRaffeProgram)
             throw NotAProgramException()
         return parsed
     }
 
-    private fun parse(stream: CharStream): GRaffeElement {
-        val lexer = com.sarajuhosova.graffe.GRaffeLexer(stream)
-        val tokens = CommonTokenStream(lexer)
-        val parser = com.sarajuhosova.graffe.GRaffeParser(tokens)
+    private fun parse(stream: CharStream): GRaffeElement? {
+        val errorListener = GRaffeErrorListener()
 
-        return parser.parse().accept(ASTBuilder)
+        val parser = GRaffeParserBuilder(stream)
+            .withOnlyErrorListeners(errorListener)
+            .withErrorStrategy(GRaffeErrorStrategy)
+            .build()
+
+        val context = parser.program()
+
+        if (errorListener.reported()) return null
+
+        return context.accept(ASTBuilder)
     }
 
 }

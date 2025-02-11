@@ -8,14 +8,19 @@ import com.sarajuhosova.graffe.model.ast.statement.declaration.GRaffeDeclaration
 import com.sarajuhosova.graffe.model.ast.statement.declaration.IncludeDeclaration
 import com.sarajuhosova.graffe.model.ast.statement.declaration.RelationshipDeclaration
 import com.sarajuhosova.graffe.parser.ASTBuilder
+import org.antlr.v4.runtime.tree.ParseTree
 
-object DeclarationBuilder : com.sarajuhosova.graffe.GRaffeBaseVisitor<GRaffeDeclaration>() {
+object DeclarationBuilder : GRaffeBaseVisitor<GRaffeDeclaration>() {
+
+    override fun visit(tree: ParseTree): GRaffeDeclaration {
+        return super.visit(tree)
+    }
 
     /**
      * Name ('{' statement* '}' | EOL);
      */
     override fun visitComponentDecl(
-        ctx: com.sarajuhosova.graffe.GRaffeParser.ComponentDeclContext
+        ctx: GRaffeParser.ComponentDeclContext
     ): ComponentDeclaration {
         return ComponentDeclaration(
             ctx.Name().text,
@@ -27,7 +32,7 @@ object DeclarationBuilder : com.sarajuhosova.graffe.GRaffeBaseVisitor<GRaffeDecl
      * Name Arrow Name ('{' property* '}' | EOL);
      */
     override fun visitRelationshipDecl(
-        ctx: com.sarajuhosova.graffe.GRaffeParser.RelationshipDeclContext
+        ctx: GRaffeParser.RelationshipDeclContext
     ): RelationshipDeclaration {
         return RelationshipDeclaration(
             ctx.Name().first().text,
@@ -41,7 +46,7 @@ object DeclarationBuilder : com.sarajuhosova.graffe.GRaffeBaseVisitor<GRaffeDecl
      * 'include' Name+ EOL;
      */
     override fun visitIncludeDecl(
-        ctx: com.sarajuhosova.graffe.GRaffeParser.IncludeDeclContext
+        ctx: GRaffeParser.IncludeDeclContext
     ): IncludeDeclaration {
         return IncludeDeclaration(ctx.qname()
             .map { q -> QName(q.Name().map { name -> name.text }) }

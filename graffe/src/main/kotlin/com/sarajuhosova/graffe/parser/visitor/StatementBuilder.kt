@@ -7,16 +7,16 @@ import com.sarajuhosova.graffe.model.ast.statement.GRaffeStatement
 import com.sarajuhosova.graffe.model.ast.statement.declaration.GRaffeDeclaration
 import com.sarajuhosova.graffe.parser.ASTBuilder
 
-object StatementBuilder : com.sarajuhosova.graffe.GRaffeBaseVisitor<GRaffeStatement>() {
+object StatementBuilder : GRaffeBaseVisitor<GRaffeStatement>() {
 
     override fun visitDeclaration(
-        ctx: com.sarajuhosova.graffe.GRaffeParser.DeclarationContext
+        ctx: GRaffeParser.DeclarationContext
     ): GRaffeDeclaration {
         return DeclarationBuilder.visit(ctx)
     }
 
     override fun visitProperty(
-        ctx: com.sarajuhosova.graffe.GRaffeParser.PropertyContext
+        ctx: GRaffeParser.PropertyContext
     ): GRaffeProperty {
         return ASTBuilder.visitProperty(ctx)
     }

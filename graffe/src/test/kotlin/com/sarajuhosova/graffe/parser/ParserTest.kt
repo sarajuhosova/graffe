@@ -5,6 +5,8 @@ import com.sarajuhosova.graffe.model.ast.statement.declaration.ComponentDeclarat
 import com.sarajuhosova.graffe.model.ast.statement.declaration.IncludeDeclaration
 import com.sarajuhosova.graffe.model.ast.statement.declaration.RelationshipDeclaration
 import com.sarajuhosova.graffe.model.property.StringProperty
+import com.sarajuhosova.graffe.test.parseProgramAsserted
+import com.sarajuhosova.graffe.test.readToCharStream
 import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.Test
 
@@ -14,7 +16,7 @@ class ParserTest {
     fun `comment is valid but ignored`() {
         val input = "// This is a comment."
 
-        val parsed = Parser.parseProgram(input)
+        val parsed = Parser.parseProgramAsserted(input)
 
         assertThat(parsed.declarations).isEmpty()
     }
@@ -23,7 +25,7 @@ class ParserTest {
     fun `example program parses`() {
         val input = readToCharStream("samples/example.grf")
 
-        val parsed = Parser.parseProgram(input)
+        val parsed = Parser.parseProgramAsserted(input)
 
         assertThat(parsed.declarations).containsExactly(
             ComponentDeclaration("a", listOf(

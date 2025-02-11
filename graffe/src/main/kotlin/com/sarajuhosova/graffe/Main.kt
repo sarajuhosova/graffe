@@ -125,6 +125,12 @@ fun main(args: Array<String>) {
         val options = optionsToMap(args.drop(1))
 
         val parsed = Parser.parseProgram(File(filename).readText())
+
+        if (parsed == null) {
+            println("File $filename could not be parsed!")
+            return
+        }
+
         val graph = parsed.generate()
 
         println("File $filename loaded!")
