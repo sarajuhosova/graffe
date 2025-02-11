@@ -4,15 +4,18 @@ import com.sarajuhosova.graffe.exception.parsing.InvalidRuleException
 import com.sarajuhosova.graffe.model.graph.GRaffe
 import com.sarajuhosova.graffe.model.graph.Graph
 import com.sarajuhosova.graffe.restrictions.TreeValidator
+import com.sarajuhosova.graffe.restrictions.Validator
 
 class RestrictionDeclaration(val rule: Rule): GRaffeDeclaration() {
 
     constructor(rule: String): this(Rule.fromString(rule))
 
     enum class Rule(
-        val validator: (Graph) -> Boolean
+        private val validator: Validator
     ) {
-        TREE(TreeValidator::validate);
+        TREE(TreeValidator);
+
+        fun validate(graph: Graph) = this.validator.validate(graph)
 
         companion object {
             private val map: Map<String, Rule> = Rule.entries.associateBy { it.toString().lowercase() }

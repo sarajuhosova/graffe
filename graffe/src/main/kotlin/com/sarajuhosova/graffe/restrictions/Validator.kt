@@ -2,8 +2,8 @@ package com.sarajuhosova.graffe.restrictions
 
 import com.sarajuhosova.graffe.model.graph.Graph
 
-object TreeValidator: Validator {
+interface Validator {
 
-    override fun validate(graph: Graph): Boolean = true
+    fun validate(graph: Graph): Boolean
 
 }
