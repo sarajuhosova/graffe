@@ -6,8 +6,16 @@ import com.sarajuhosova.graffe.helper.indent
 sealed class Option(
     protected val alias: String,
     private val arguments: String,
-    protected val description: String
+    private val description: String
 ) {
+
+    protected abstract fun default()
+
+    fun reset() {
+        if (!configured) return
+        default()
+        configured = false
+    }
 
     var configured: Boolean = false
         private set
@@ -17,7 +25,10 @@ sealed class Option(
 
     fun configure(args: List<String>) {
         if (configured)
-            throw InvalidProgramArgumentsException("$alias is already configured")
+            throw InvalidProgramArgumentsException(
+                "$alias is already configured",
+                InvalidProgramArgumentsException.Type.ALREADY_CONFIGURED
+            )
         validate(args)
         config(args)
         configured = true
@@ -42,9 +53,20 @@ sealed class Option(
         operator fun get(option: String): Option? = ALIAS_MAP[option]
 
         @Throws(InvalidProgramArgumentsException::class)
+        fun compileOptions(options: String) {
+            compileOptions(options.split(" "))
+        }
+
+        @Throws(InvalidProgramArgumentsException::class)
         fun compileOptions(options: List<String>) {
+            if (options.isEmpty()) return
+
             fun addOption(key: String, values: List<String>) {
-                val option = Option[key] ?: throw InvalidProgramArgumentsException("$key is not a valid option")
+                val option = Option[key]
+                    ?: throw InvalidProgramArgumentsException(
+                        "$key is not a valid option",
+                        InvalidProgramArgumentsException.Type.INVALID_OPTION
+                    )
 
                 option.configure(values)
             }
