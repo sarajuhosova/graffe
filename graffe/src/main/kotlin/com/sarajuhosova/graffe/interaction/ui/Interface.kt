@@ -24,12 +24,7 @@ interface Interface {
     }
 
     companion object {
-        fun exploreGraph(graph: Graph, type: String) {
-            if (type !in Type)
-                throw IllegalArgumentException("Invalid interface type: $type")
-            Type[type]!!.i.exploreGraph(graph)
-        }
-
+        val OPTIONS: List<String> = Type.entries.map { it.string }
     }
 
 }
