@@ -25,7 +25,8 @@ data class Relationship(
 
     private fun isX(name: String, x: String): Boolean = when (type) {
         Arrow.DIRECTED -> x == name
-        else -> connectsTo(name)
+        Arrow.REFLEXIVE -> connectsTo(name)
+        Arrow.UNDIRECTED -> false
     }
     fun isSource(name: String): Boolean = isX(name, source)
     fun isTarget(name: String): Boolean = isX(name, target)

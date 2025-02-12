@@ -1,33 +1,42 @@
 package com.sarajuhosova.graffe.model.graph
 
 import com.sarajuhosova.graffe.exception.generation.MissingComponentsException
-import com.sarajuhosova.graffe.model.ast.statement.declaration.ComponentDeclaration
-import com.sarajuhosova.graffe.model.ast.statement.declaration.GRaffeDeclaration
-import com.sarajuhosova.graffe.model.ast.statement.declaration.IncludeDeclaration
-import com.sarajuhosova.graffe.model.ast.statement.declaration.RelationshipDeclaration
+import com.sarajuhosova.graffe.model.ast.statement.declaration.*
+import com.sarajuhosova.graffe.model.dto.Component
+import com.sarajuhosova.graffe.restrictions.Rule
 
 data class Graph(
     private val parent: Node?,
     private val nodes: MutableMap<String, Node> = mutableMapOf(),
-    private val edges: MutableList<Edge> = mutableListOf()
+    private val edges: MutableList<Edge> = mutableListOf(),
+    private val restrictions: MutableList<Rule> = mutableListOf()
 ) : GRaffe() {
 
     fun size(): Int = nodes.size
 
-    operator fun get(name: String): com.sarajuhosova.graffe.model.dto.Component? =
-        if (name !in nodes) null else com.sarajuhosova.graffe.model.dto.Component(
+    fun isEmpty(): Boolean = nodes.isEmpty()
+    fun isNotEmpty(): Boolean = !isEmpty()
+
+    operator fun get(name: String): Component? =
+        if (name !in nodes) null else Component(
             getNode(name)!!,
             getEdges(name),
             this
         )
 
-    fun getParent(): com.sarajuhosova.graffe.model.dto.Component? =
+    fun first(): Node = nodes.values.first()
+
+    fun getParent(): Component? =
         // TODO: fix the empty list here!!
-        if (parent == null) null else com.sarajuhosova.graffe.model.dto.Component(parent, emptyList(), this)
+        if (parent == null) null else Component(parent, emptyList(), this)
 
     fun getNode(name: String): Node? = nodes[name]
     fun getEdges(name: String): List<Edge> =
         edges.filter { it.connectsNode(name) }
+    fun getEdges(node: Node): List<Edge> = getEdges(node.name)
+
+    fun getDirectedNeighbours(node: Node): List<Node> =
+        edges.filter { it.hasSource(node.name) }.map { nodes[it.relationship.target]!! }
 
     fun addNode(node: Node) {
         if (node.name !in nodes) nodes[node.name] = node
@@ -54,6 +63,7 @@ data class Graph(
         if (missing.isNotEmpty()) {
             throw MissingComponentsException(missing)
         }
+        for (rule in restrictions) rule.validate(this)
     }
 
     fun summary(): List<Pair<String, Int>> =
@@ -71,6 +81,8 @@ data class Graph(
                     is RelationshipDeclaration -> result.addEdge(
                         declaration.generate()
                     )
+                    is RestrictionDeclaration ->
+                        result.restrictions.add(declaration.rule)
                 }
             }
             result.validate()
