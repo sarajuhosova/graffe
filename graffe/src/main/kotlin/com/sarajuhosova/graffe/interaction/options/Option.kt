@@ -43,7 +43,8 @@ sealed class Option(
 
     companion object {
         private val ALL: List<Option> = listOf(
-            InterfaceOption
+            InterfaceOption,
+            IgnoreRestrictionsOption
         ).sortedBy { it.alias }
 
         fun values(): List<Option> = ALL

@@ -14,6 +14,7 @@ class InterfaceOptionTest {
         Option.values()
         InterfaceOption.reset()
     }
+
     @Test
     fun `interface option is set to CLI by default`() {
         assertThat(InterfaceOption.configured).isFalse()

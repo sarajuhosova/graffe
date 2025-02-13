@@ -7,7 +7,10 @@ import com.sarajuhosova.graffe.model.graph.Graph
 object InterfaceOption: Option(
     "interface",
     "{${Interface.OPTIONS.joinToString("|")}}",
-    "requires exactly one argument specifying the interface for exploring the graph"
+    """
+        |specifies which interface to use for walking through the generated graph
+        |requires exactly one argument specifying the interface for exploring the graph
+    """.trimMargin()
 ) {
 
     var choice = Interface.Type.COMMAND_LINE

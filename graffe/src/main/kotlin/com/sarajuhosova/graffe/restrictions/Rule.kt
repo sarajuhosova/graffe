@@ -2,6 +2,7 @@ package com.sarajuhosova.graffe.restrictions
 
 import com.sarajuhosova.graffe.exception.generation.RestrictionViolatedException
 import com.sarajuhosova.graffe.exception.parsing.InvalidRuleException
+import com.sarajuhosova.graffe.interaction.options.IgnoreRestrictionsOption
 import com.sarajuhosova.graffe.model.graph.Graph
 
 enum class Rule(
@@ -10,6 +11,7 @@ enum class Rule(
     TREE(TreeValidator);
 
     fun validate(graph: Graph) {
+        if (IgnoreRestrictionsOption.ignore) return
         if (!validator.validate(graph))
             throw RestrictionViolatedException(this)
     }
