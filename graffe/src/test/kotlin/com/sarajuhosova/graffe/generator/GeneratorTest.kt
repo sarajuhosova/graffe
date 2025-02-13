@@ -3,10 +3,11 @@ package com.sarajuhosova.graffe.generator
 import com.sarajuhosova.graffe.model.ast.GRaffeProgram
 import com.sarajuhosova.graffe.model.ast.statement.declaration.ComponentDeclaration
 import com.sarajuhosova.graffe.model.ast.statement.declaration.RelationshipDeclaration
+import com.sarajuhosova.graffe.test.GRaffeTest
 import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.Test
 
-class GeneratorTest {
+class GeneratorTest : GRaffeTest() {
 
     @Test
     fun `empty program compiles to empty graph`() {

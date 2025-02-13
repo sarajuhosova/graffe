@@ -4,13 +4,14 @@ import com.sarajuhosova.graffe.model.ast.statement.GRaffeProperty
 import com.sarajuhosova.graffe.model.ast.statement.declaration.RelationshipDeclaration
 import com.sarajuhosova.graffe.model.property.StringProperty
 import com.sarajuhosova.graffe.parser.Parser
+import com.sarajuhosova.graffe.test.GRaffeTest
 import com.sarajuhosova.graffe.test.parseProgramAsserted
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import kotlin.test.Test
 
-class RelationshipDeclTest {
+class RelationshipDeclTest : GRaffeTest() {
 
     @TestFactory
     fun `empty relationship is valid with all arrows`() =

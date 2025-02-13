@@ -4,11 +4,12 @@ import com.sarajuhosova.graffe.model.ast.statement.GRaffeProperty
 import com.sarajuhosova.graffe.model.ast.statement.declaration.ComponentDeclaration
 import com.sarajuhosova.graffe.model.property.StringProperty
 import com.sarajuhosova.graffe.parser.Parser
+import com.sarajuhosova.graffe.test.GRaffeTest
 import com.sarajuhosova.graffe.test.parseProgramAsserted
 import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.Test
 
-class ComponentDeclTest {
+class ComponentDeclTest : GRaffeTest() {
 
     @Test
     fun `empty declaration is valid`() {

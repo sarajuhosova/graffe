@@ -4,10 +4,11 @@ import com.sarajuhosova.graffe.model.ast.GRaffeProgram
 import com.sarajuhosova.graffe.model.ast.statement.GRaffeProperty
 import com.sarajuhosova.graffe.model.ast.statement.declaration.ComponentDeclaration
 import com.sarajuhosova.graffe.model.property.StringProperty
+import com.sarajuhosova.graffe.test.GRaffeTest
 import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.Test
 
-class PropertyTest {
+class PropertyTest : GRaffeTest() {
 
     @Test
     fun `component has defined property`() {

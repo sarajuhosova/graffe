@@ -2,11 +2,12 @@ package com.sarajuhosova.graffe.interaction.options
 
 import com.sarajuhosova.graffe.exception.InvalidProgramArgumentsException
 import com.sarajuhosova.graffe.interaction.ui.Interface
+import com.sarajuhosova.graffe.test.GRaffeTest
 import org.assertj.core.api.Assertions.*
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
-class OptionTest {
+class OptionTest : GRaffeTest() {
 
     @BeforeTest
     fun setup() {

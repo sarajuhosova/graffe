@@ -2,18 +2,12 @@ package com.sarajuhosova.graffe.interaction.options
 
 import com.sarajuhosova.graffe.exception.InvalidProgramArgumentsException
 import com.sarajuhosova.graffe.interaction.ui.Interface
+import com.sarajuhosova.graffe.test.GRaffeTest
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.catchThrowable
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 
-class InterfaceOptionTest {
-
-    @BeforeTest
-    fun setup() {
-        Option.values()
-        InterfaceOption.reset()
-    }
+class InterfaceOptionTest : GRaffeTest() {
 
     @Test
     fun `interface option is set to CLI by default`() {

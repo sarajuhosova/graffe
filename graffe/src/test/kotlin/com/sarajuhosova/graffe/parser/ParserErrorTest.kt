@@ -1,9 +1,10 @@
 package com.sarajuhosova.graffe.parser
 
+import com.sarajuhosova.graffe.test.GRaffeTest
 import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.Test
 
-class ParserErrorTest {
+class ParserErrorTest : GRaffeTest() {
 
     @Test
     fun `single semicolon throws a parse error`() {

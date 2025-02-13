@@ -3,12 +3,13 @@ package com.sarajuhosova.graffe.restriction
 import com.sarajuhosova.graffe.exception.generation.RestrictionViolatedException
 import com.sarajuhosova.graffe.parser.Parser
 import com.sarajuhosova.graffe.restrictions.Rule
+import com.sarajuhosova.graffe.test.GRaffeTest
 import com.sarajuhosova.graffe.test.parseProgramAsserted
 import com.sarajuhosova.graffe.test.readToCharStream
 import org.assertj.core.api.Assertions.*
 import kotlin.test.Test
 
-class TreeTest {
+class TreeTest : GRaffeTest() {
 
     @Test
     fun `valid tree succeeds`() {

@@ -3,11 +3,12 @@ package com.sarajuhosova.graffe.parser.declaration
 import com.sarajuhosova.graffe.model.QName
 import com.sarajuhosova.graffe.model.ast.statement.declaration.IncludeDeclaration
 import com.sarajuhosova.graffe.parser.Parser
+import com.sarajuhosova.graffe.test.GRaffeTest
 import com.sarajuhosova.graffe.test.parseProgramAsserted
 import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.Test
 
-class IncludeDeclTest {
+class IncludeDeclTest : GRaffeTest() {
 
     @Test
     fun `include declaration parses with one include`() {
